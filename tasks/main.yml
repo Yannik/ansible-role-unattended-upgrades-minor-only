@@ -1,0 +1,2 @@
+- import_tasks: unattended-upgrades.yml
+  tags: unattended-upgrades

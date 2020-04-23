@@ -1,0 +1,17 @@
+- name: Install unattended-upgrades-pinfiles
+  template:
+    src: unattended-upgrades-pinfiles.j2
+    dest: /usr/local/bin/unattended-upgrades-pinfiles
+    mode: 0700
+
+- name: Install ExecPre
+  lineinfile:
+    path: /lib/systemd/system/apt-daily-upgrade.service
+    line: ExecStartPre=/usr/local/bin/unattended-upgrades-pinfiles install
+    insertafter: '\[Service\]'
+
+- name: Install ExecPost
+  lineinfile:
+    path: /lib/systemd/system/apt-daily-upgrade.service
+    line: ExecStartPost=/usr/local/bin/unattended-upgrades-pinfiles remove
+    insertafter: '\[Service\]'

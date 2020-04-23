@@ -1,0 +1,20 @@
+#!/bin/sh
+
+PACKAGES="{{ unattended_major_only_packages | join(' ') }}"
+PIN_FILE=/etc/apt/preferences.d/unattened-upgrade-major-version-pins
+
+ACTION=$1
+
+[ "$ACTION" = "remove" ] && rm -f "$PIN_FILE" && exit 0
+
+[ ! "$ACTION" = "install" ] && echo "Usage: $0 <install/remove>" && exit 1
+
+for PACKAGE in $PACKAGES; do
+  CURRENT_VERSION=$(dpkg -s $PACKAGE |grep ^Version | awk '{print $2}')
+  MAJOR_VERSION="$(echo $CURRENT_VERSION |grep -o -E  ^[0-9]*:?[0-9]+\.)*"
+  cat << EOF >> "$PIN_FILE"
+Package: $PACKAGE
+Pin: version $MAJOR_VERSION
+Pin-Priority: 1001
+EOF
+done

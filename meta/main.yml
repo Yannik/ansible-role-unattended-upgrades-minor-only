@@ -1,0 +1,24 @@
+# meta file for fail2ban
+---
+galaxy_info:
+  role_name: Unattended Upgrades Major Only
+  author: Yannik Sembritzki
+  #company:
+  description: Only install minor updates for certain packages via unattended ugrades
+  license: MIT
+  min_ansible_version: 2.4.0
+  platforms:
+    - name: Ubuntu
+      versions:
+        - precise
+        - trusty
+        - xenial
+        - bionic
+    - name: Debian
+      versions:
+        - stretch
+        - buster
+  galaxy_tags:
+    - system
+dependencies: []
+
