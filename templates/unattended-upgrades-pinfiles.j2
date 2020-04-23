@@ -1,6 +1,6 @@
 #!/bin/sh
 
-PACKAGES="{{ unattended_major_only_packages | join(' ') }}"
+PACKAGES="{{ unattended_minor_only_packages | join(' ') }}"
 PIN_FILE=/etc/apt/preferences.d/unattened-upgrade-major-version-pins
 
 ACTION=$1
