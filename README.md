@@ -9,3 +9,10 @@ unattended_minor_only_packages:
   - gitlab-ce
   - docker-ce
 ```  
+
+Test using:
+```
+rm -f /var/lib/apt/periodic/update-stamp /var/lib/apt/periodic/download-upgradeable-stamp /var/lib/apt/periodic/upgrade-stamp
+systemctl start apt-daily
+systemctl start apt-daily-upgrade
+```
