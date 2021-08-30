@@ -12,13 +12,22 @@ unattended_minor_only_packages:
 
 Test using:
 ```
+unattended-upgrade --debug
+```
+or
+```
 rm -f /var/lib/apt/periodic/update-stamp /var/lib/apt/periodic/download-upgradeable-stamp /var/lib/apt/periodic/upgrade-stamp
 systemctl start apt-daily && systemctl start apt-daily-upgrade
 ```
 
-unattended-upgrade debug run:
+unattended-upgrade dry run:
 ```
 unattended-upgrade --debug --dry-run
+```
+
+Show currently configured apt repositorys:
+```
+apt-cache policy
 ```
 
 Get currently installed apt package lists:
