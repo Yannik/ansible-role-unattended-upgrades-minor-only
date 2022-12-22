@@ -4,14 +4,23 @@
     dest: /usr/local/bin/unattended-upgrades-pinfiles
     mode: 0700
 
-- name: Install ExecPre
-  lineinfile:
-    path: /lib/systemd/system/apt-daily-upgrade.service
-    line: ExecStartPre=/usr/local/bin/unattended-upgrades-pinfiles install
-    insertafter: '\[Service\]'
+- name: Create /etc/systemd/system/apt-daily-upgrade.service.d directory
+  file:
+    path: /etc/systemd/system/apt-daily-upgrade.service.d
+    state: directory
 
-- name: Install ExecPost
-  lineinfile:
-    path: /lib/systemd/system/apt-daily-upgrade.service
-    line: ExecStartPost=/usr/local/bin/unattended-upgrades-pinfiles remove
-    insertafter: '\[Service\]'
+- name: Install ExecPre
+  copy:
+    dest: /etc/systemd/system/apt-daily-upgrade.service.d/unattended-upgrades-minor-only.conf
+    content: |
+      [Service]
+      ExecStartPre=/usr/local/bin/unattended-upgrades-pinfiles install
+      ExecStartPost=/usr/local/bin/unattended-upgrades-pinfiles remove
+  register: __unattended_upgrades_minor_only
+
+- name: Reload systemd
+  ansible.builtin.systemd:
+    daemon_reload: yes
+  when: __unattended_upgrades_minor_only is changed
+
+
